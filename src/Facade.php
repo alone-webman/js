@@ -17,9 +17,13 @@ class Facade {
         $path = $app['path'] ?? '';
         $down = $app['down'] ?? '';
         $route = $app['route'] ?? '';
-        Route::get("/alone/app.js", function(Request $req) use ($down) {
+        $loading = [];
+        foreach ($down as $k => $v) {
+            $loading[] = "/" . trim($path, '/') . "/" . trim($k, '/');
+        }
+        Route::get("/alone/app.js", function(Request $req) use ($loading) {
             $body = @file_get_contents(__DIR__ . '/../app.js');
-            $body = str_replace('%loaderIng%', json_encode(array_keys($down)), $body);
+            $body = str_replace('%loaderIng%', json_encode($loading), $body);
             return response($body)->withHeaders(["Content-Type" => "application/javascript"]);
         })->name('alone.js.app');
         foreach ($route as $rout => $arr) {
