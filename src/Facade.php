@@ -23,7 +23,7 @@ class Facade {
         }
         Route::get("/alone/app.js", function(Request $req) use ($loading) {
             $body = @file_get_contents(__DIR__ . '/../app.js');
-            $body = str_replace('%loaderIng%', json_encode($loading), $body);
+            $body = str_replace('%loaderIng%', "'" . json_encode($loading) . "'", $body);
             return response($body)->withHeaders(["Content-Type" => "application/javascript"]);
         })->name('alone.js.app');
         foreach ($route as $rout => $arr) {

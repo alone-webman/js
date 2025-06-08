@@ -14,13 +14,13 @@ function alone_app(callback, loading) {
             link.setAttribute('href', file);
             link.setAttribute('type', 'text/css');
             link.setAttribute('rel', 'stylesheet');
-            link.onload = () => (length--, (length === 0) && call());
+            link.onload = () => (length--, (length === 0) && call(length));
             document.head.appendChild(link);
         } else {
             const script = document.createElement('script');
             script.setAttribute('type', 'text/javascript');
             script.setAttribute('src', file);
-            script.onload = () => (length--, (length === 0) && call());
+            script.onload = () => (length--, (length === 0) && call(length));
             document.body.appendChild(script);
         }
     });
