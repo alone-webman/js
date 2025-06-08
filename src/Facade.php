@@ -237,4 +237,21 @@ class Facade {
         }
         return 0;
     }
+
+    /**
+     * 替换内容
+     * @param string|null $string 要替换的string
+     * @param array       $array  ['key'=>'要替换的内容']
+     * @param string      $symbol key前台符号
+     * @return string
+     */
+    public static function tag(string|null $string, array $array = [], string $symbol = '%'): string {
+        if (!empty($string)) {
+            $array = array_combine(array_map(fn($key) => ($symbol . $key . $symbol), array_keys($array)), array_values($array));
+            $result = strtr($string, $array);
+            $result = preg_replace("/" . $symbol . "[^" . $symbol . "]+" . $symbol . "/", '', $result);
+            $string = trim($result);
+        }
+        return $string ?? '';
+    }
 }
