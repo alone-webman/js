@@ -17,9 +17,9 @@ class Facade {
         $path = $app['path'] ?? '';
         $down = $app['down'] ?? '';
         $route = $app['route'] ?? '';
-        $loading = [];
-        foreach ($down as $k => $v) {
-            $loading[] = "/" . trim($path, '/') . "/" . trim($k, '/');
+        $loading = $app['loading'] ?? [];
+        foreach ($loading as $k => $v) {
+            $loading[$k] = "/" . trim($v, '/');
         }
         Route::get("/alone/app.js", function(Request $req) use ($loading) {
             $body = @file_get_contents(__DIR__ . '/../app.js');

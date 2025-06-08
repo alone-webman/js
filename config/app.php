@@ -1,14 +1,14 @@
 <?php
 return [
-    'enable' => true,
+    'enable'  => true,
     /*
      * 调用路径
      */
-    'path'   => "alone/js",
+    'path'    => "alone/js",
     /*
      * 设置下载列表
      */
-    'down'   => [
+    'down'    => [
         "layui/css/layui.css" => "https://unpkg.com/layui@latest/dist/css/layui.css",
         "layui/layui.js"      => "https://unpkg.com/layui@latest/dist/layui.js",
         "vue/vue.js"          => "https://unpkg.com/vue@latest/dist/vue.global.prod.js",
@@ -18,7 +18,14 @@ return [
     /*
      * 集合调用
      */
-    'route'  => [
+    'route'   => [
         'alone/js/facade.js' => ["layui/layui.js", "vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
+    ],
+    /*
+     * alone_app加载
+     */
+    "loading" => [
+        "alone/js/layui/css/layui.css",
+        "alone/js/facade.js"
     ]
 ];
