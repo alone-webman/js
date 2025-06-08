@@ -3,8 +3,6 @@
 namespace AloneWebMan\Js;
 
 use Webman\Route;
-use support\Request;
-use support\Response;
 
 class Facade {
     protected static array $progressCallback = [];
@@ -18,14 +16,42 @@ class Facade {
         $path = $app['path'] ?? '';
         $down = $app['down'] ?? '';
         $route = $app['route'] ?? '';
-        static::updateRoute($route, $down);
         foreach ($route as $rout => $arr) {
-            Route::get("/" . trim($rout, '/'), function(Request $req) use ($rout): Response {
-                return response()->file(__DIR__ . '/../file/route/' . trim($rout, '/'));
+            $val = is_array($arr) ? $arr : explode(',', $arr);
+            Route::get("/" . trim($rout, '/'), function($req) use ($down, $rout, $val) {
+                $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
+                if (empty(is_file($routFile))) {
+                    $content = "";
+                    foreach ($val as $file) {
+                        if (!empty($url = ($down[$file] ?? ''))) {
+                            $file = (__DIR__ . '/../file/' . trim($file, '/'));
+                            if (empty(is_file($file))) {
+                                $body = static::curl($url);
+                                if (!empty($body)) {
+                                    @mkdir(dirname($file), 0777, true);
+                                    @file_put_contents($file, $body);
+                                }
+                            } else {
+                                $body = @file_get_contents($file);
+                            }
+                            if (!empty($body)) {
+                                $content = $content . $body . "\r\n";
+                            }
+                        }
+                    }
+                    if (!empty($content)) {
+                        @mkdir(dirname($routFile), 0777, true);
+                        @file_put_contents($routFile, $content);
+                    }
+                }
+                if (!empty(is_file($routFile))) {
+                    return response()->file($routFile);
+                }
+                return response("error", 404);
             })->name('alone.js.route.' . $rout);
         }
         if (!empty($path)) {
-            Route::get("/" . trim($path, '/') . '[{path:.+}]', function(Request $req, mixed $path = "") use ($down): Response {
+            Route::get("/" . trim($path, '/') . '[{path:.+}]', function($req, mixed $path = "") use ($down) {
                 $path = trim($path, '/');
                 $update = $req->get('update');
                 $filePath = __DIR__ . '/../file/' . $path;
