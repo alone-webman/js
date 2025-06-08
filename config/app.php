@@ -22,7 +22,7 @@ return [
         'alone/js/vue.js' => ["vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
     ],
     /*
-     * alone_app加载
+     * alone_app加载 (完全的访问路径)
      */
     "loading" => [
         "alone/js/layui/css/layui.css",
