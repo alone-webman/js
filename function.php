@@ -7,7 +7,6 @@ function alone_js_route(): void {
     Facade::route(config('plugin.alone.js.app', []));
 }
 
-
 /**
  * @param string|array $title 标题
  * @param string       $body  内容
