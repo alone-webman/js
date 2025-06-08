@@ -16,17 +16,17 @@ return [
         "vue/vue-i18n.js"     => "https://unpkg.com/vue-i18n@latest/dist/vue-i18n.global.prod.js"
     ],
     /*
-     * 集合调用
+     * 路由文件
      */
     'route'   => [
-        'alone/vue.js' => ["vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
+        'alone/js/vue.js' => ["vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
     ],
     /*
      * alone_app加载
      */
     "loading" => [
-        "layui/css/layui.css",
-        "layui/layui.js",
+        "alone/js/layui/css/layui.css",
+        "alone/js/layui/layui.js",
         "alone/js/vue.js"
     ]
 ];
