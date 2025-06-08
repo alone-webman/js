@@ -19,13 +19,14 @@ return [
      * 集合调用
      */
     'route'   => [
-        'alone/js/facade.js' => ["layui/layui.js", "vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
+        'alone/vue.js' => ["vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
     ],
     /*
      * alone_app加载
      */
     "loading" => [
-        "alone/js/layui/css/layui.css",
-        "alone/js/facade.js"
+        "layui/css/layui.css",
+        "layui/layui.js",
+        "alone/js/vue.js"
     ]
 ];
