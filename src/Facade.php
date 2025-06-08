@@ -20,12 +20,7 @@ class Facade {
         $loading = $app['loading'] ?? [];
         if (!empty($loading)) {
             foreach ($loading as $k => $v) {
-                $file = trim($v, '/');
-                if (str_starts_with($file, trim($path, '/'))) {
-                    $loading[$k] = "/" . trim($file, '/');
-                } else {
-                    $loading[$k] = "/" . trim($path, '/') . "/" . $file;
-                }
+                $loading[$k] = "/" . trim($v, '/');
             }
         } else {
             $loading = [];
