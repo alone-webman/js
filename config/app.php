@@ -4,7 +4,7 @@ return [
     /*
      * 调用路径
      */
-    'path'   => "/alone/js/path",
+    'path'   => "alone/js",
     /*
      * 设置下载列表
      */
@@ -19,6 +19,6 @@ return [
      * 集合调用
      */
     'route'  => [
-        'alone/js/path/facade.js' => ["layui/layui.js", "vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
+        'alone/js/facade.js' => ["layui/layui.js", "vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
     ]
 ];

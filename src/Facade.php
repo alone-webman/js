@@ -3,6 +3,7 @@
 namespace AloneWebMan\Js;
 
 use Webman\Route;
+use support\Request;
 
 class Facade {
     protected static array $progressCallback = [];
@@ -18,7 +19,7 @@ class Facade {
         $route = $app['route'] ?? '';
         foreach ($route as $rout => $arr) {
             $val = is_array($arr) ? $arr : explode(',', $arr);
-            Route::get("/" . trim($rout, '/'), function($req) use ($down, $rout, $val) {
+            Route::get("/" . trim($rout, '/'), function(Request $req) use ($down, $rout, $val) {
                 $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
                 if (empty(is_file($routFile))) {
                     $content = "";
@@ -51,7 +52,7 @@ class Facade {
             })->name('alone.js.route.' . $rout);
         }
         if (!empty($path)) {
-            Route::get("/" . trim($path, '/') . '[{path:.+}]', function($req, mixed $path = "") use ($down) {
+            Route::get("/" . trim($path, '/') . '[{path:.+}]', function(Request $req, mixed $path = "") use ($down) {
                 $path = trim($path, '/');
                 $update = $req->get('update');
                 $filePath = __DIR__ . '/../file/' . $path;
