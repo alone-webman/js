@@ -1,0 +1,7 @@
+.idea
+.vscode
+*.log
+vendor
+composer.lock
+demo.html
+demo.php

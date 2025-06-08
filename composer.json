@@ -1,0 +1,22 @@
+{
+  "name":"alone-webman/js",
+  "type":"library",
+  "license":"MIT",
+  "version":"1.0.0",
+  "description":"前端js",
+  "autoload":{
+    "psr-4":{
+      "AloneWebMan\\Js\\":"src"
+    },
+    "files":[
+      "function.php"
+    ]
+  },
+  "require":{
+    "php":">=8.0"
+  },
+  "require-dev":{
+    "workerman/webman-framework":"^2.1",
+    "webman/console":"^2.1"
+  }
+}
