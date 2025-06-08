@@ -26,12 +26,14 @@ class Facade {
         }
         if (!empty($path)) {
             Route::get("/" . trim($path, '/') . '[{path:.+}]', function(Request $req, mixed $path = "") use ($down): Response {
+                $path = trim($path, '/');
                 $update = $req->get('update');
                 $filePath = __DIR__ . '/../file/' . $path;
                 if (empty(is_file($filePath)) || !empty($update)) {
                     if (!empty($url = ($down[$path] ?? ''))) {
                         $body = static::curl($url);
                         if (!empty($body)) {
+                            @mkdir(dirname($filePath), 0777, true);
                             @file_put_contents($filePath, $body);
                             return response()->file($filePath);
                         }
@@ -61,6 +63,7 @@ class Facade {
                         if (empty(is_file($file))) {
                             $body = static::curl($url);
                             if (!empty($body)) {
+                                @mkdir(dirname($file), 0777, true);
                                 @file_put_contents($file, $body);
                             }
                         } else {
@@ -72,6 +75,7 @@ class Facade {
                     }
                 }
                 if (!empty($content)) {
+                    @mkdir(dirname($routFile), 0777, true);
                     @file_put_contents($routFile, $content);
                 }
             }
