@@ -57,7 +57,7 @@ class Facade {
                 $filePath = $save . $path;
                 if (empty(is_file($filePath)) || !empty($update)) {
                     if (!empty($url = ($down[$path] ?? ''))) {
-                        Facade::downFile([$path => $url], $save, !empty($update));
+                        static::downFile([$path => $url], $save, !empty($update));
                     }
                     return response("error", 404);
                 }
