@@ -2,11 +2,15 @@
 return [
     'enable'  => true,
     /*
-     * 调用路径
+     * 访问路径
      */
     'path'    => "alone/js",
     /*
-     * 设置下载列表
+     * 保存位置空时默认位置(绝对路径)
+     */
+    'save'    => "",
+    /*
+     * 设置下载列表 (相对路径=>下载地址)
      */
     'down'    => [
         "layui/css/layui.css" => "https://unpkg.com/layui@latest/dist/css/layui.css",
@@ -16,7 +20,7 @@ return [
         "vue/vue-i18n.js"     => "https://unpkg.com/vue-i18n@latest/dist/vue-i18n.global.prod.js"
     ],
     /*
-     * 路由文件
+     * 路由文件 (保存的相对路径),"/开头自定绝对路径"
      */
     'route'   => [
         'alone/js/vue.js' => ["vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
@@ -25,8 +29,8 @@ return [
      * alone_app加载 (完全的访问路径)
      */
     "loading" => [
-        "alone/js/layui/css/layui.css",
-        "alone/js/layui/layui.js",
-        "alone/js/vue.js"
+        "/alone/js/layui/css/layui.css",
+        "/alone/js/layui/layui.js",
+        "/alone/js/vue.js"
     ]
 ];

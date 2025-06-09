@@ -18,9 +18,11 @@ class JsExec extends Command {
 
     public function execute(InputInterface $input, OutputInterface $output): int {
         $update = $input->getArgument('update');
-        $down = config('plugin.alone.js.app.down', []);
-        Facade::downFile($down, !empty($update));
-        Facade::updateRoute(config('plugin.alone.js.app.route', []), $down);
+        $app = config('plugin.alone.js.app', []);
+        Facade::downFile($app['down'] ?? [], $app["save"] ?? '', !empty($update), true);
+        foreach (($app['route'] ?? []) as $rout => $arr) {
+            Facade::updateRoute($rout, $arr);
+        }
         return self::SUCCESS;
     }
 }

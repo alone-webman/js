@@ -18,11 +18,8 @@ class Facade {
         $down = $app['down'] ?? '';
         $route = $app['route'] ?? '';
         $loading = $app['loading'] ?? [];
-        if (!empty($loading)) {
-            foreach ($loading as $k => $v) {
-                $loading[$k] = "/" . trim($v, '/');
-            }
-        } else {
+        $save = rtrim((($app['save'] ?? "") ?: __DIR__ . '/../file/'), '/') . "/";
+        if (empty($loading)) {
             $loading = [];
             foreach ($down as $k => $v) {
                 if (str_ends_with($k, 'js')) {
@@ -30,50 +27,20 @@ class Facade {
                 }
             }
         }
+
+        //app.js
         Route::get("/alone/app.js", function(Request $req) use ($loading) {
             $body = @file_get_contents(__DIR__ . '/../app.js');
-            $body = str_replace('"%loaderIng%"', "'" . json_encode($loading) . "'", $body);
+            $body = str_replace('["/alone/js/layui/css/layui.css","/alone/js/layui/layui.js"]', "'" . json_encode($loading) . "'", $body);
             return response($body)->withHeaders(["Content-Type" => "application/javascript"]);
         })->name('alone.js.app');
-        foreach ($route as $rout => $arr) {
-            $val = is_array($arr) ? $arr : explode(',', $arr);
-            Route::get("/" . trim($rout, '/'), function(Request $req) use ($down, $rout, $val) {
-                $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
-                if (empty(is_file($routFile))) {
-                    $content = "";
-                    foreach ($val as $file) {
-                        if (!empty($url = ($down[$file] ?? ''))) {
-                            $file = (__DIR__ . '/../file/' . trim($file, '/'));
-                            if (empty(is_file($file))) {
-                                $body = static::curl($url);
-                                if (!empty($body)) {
-                                    @mkdir(dirname($file), 0777, true);
-                                    @file_put_contents($file, $body);
-                                }
-                            } else {
-                                $body = @file_get_contents($file);
-                            }
-                            if (!empty($body)) {
-                                $content = $content . $body . "\r\n";
-                            }
-                        }
-                    }
-                    if (!empty($content)) {
-                        @mkdir(dirname($routFile), 0777, true);
-                        @file_put_contents($routFile, $content);
-                    }
-                }
-                if (!empty(is_file($routFile))) {
-                    return response()->file($routFile);
-                }
-                return response("error", 404);
-            })->name('alone.js.route.' . $rout);
-        }
+
+        //单独访问
         if (!empty($path)) {
-            Route::get("/" . trim($path, '/') . '[{path:.+}]', function(Request $req, mixed $path = "") use ($down) {
+            Route::get("/" . trim($path, '/') . '[{path:.+}]', function(Request $req, mixed $path = "") use ($save, $down) {
                 $path = trim($path, '/');
                 $update = $req->get('update');
-                $filePath = __DIR__ . '/../file/' . $path;
+                $filePath = $save . $path;
                 if (empty(is_file($filePath)) || !empty($update)) {
                     if (!empty($url = ($down[$path] ?? ''))) {
                         $body = static::curl($url);
@@ -88,98 +55,137 @@ class Facade {
                 return response()->file($filePath);
             })->name('alone.js.path');
         }
+
+        foreach ($route as $rout => $arr) {
+            $val = is_array($arr) ? $arr : explode(',', $arr);
+            Route::get("/" . trim($rout, '/'), function(Request $req) use ($save, $down, $rout, $val) {
+                $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
+                (empty(is_file($routFile))) && static::updateRoute($rout, $val);
+                if (!empty(is_file($routFile))) {
+                    return response()->file($routFile);
+                }
+                return response("error", 404);
+            })->name('alone.js.route.' . $rout);
+        }
     }
 
     /**
      * 生成文件
-     * @param array $route
-     * @param array $down
+     * @param string       $rout 路由名
+     * @param array|string $arr  列表
      * @return void
      */
-    public static function updateRoute(array $route, array $down): void {
-        foreach ($route as $rout => $arr) {
-            $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
-            if (empty(is_file($routFile))) {
-                $content = "";
-                $val = is_array($arr) ? $arr : explode(',', $arr);
-                foreach ($val as $file) {
+    public static function updateRoute(string $rout, array|string $arr): void {
+        $down = $app['down'] ?? [];
+        $save = rtrim((($app['save'] ?? "") ?: __DIR__ . '/../file/'), '/') . "/";
+        $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
+        if (empty(is_file($routFile))) {
+            $content = "";
+            $val = is_array($arr) ? $arr : explode(',', $arr);
+            foreach ($val as $file) {
+                if (str_starts_with($file, "/")) {
+                    $fileName = $file;
+                } else {
+                    $file = trim($file, '/');
+                    $fileName = $save . $file;
+                }
+                if (empty(is_file($fileName))) {
                     if (!empty($url = ($down[$file] ?? ''))) {
-                        $file = (__DIR__ . '/../file/' . trim($file, '/'));
-                        if (empty(is_file($file))) {
-                            $body = static::curl($url);
-                            if (!empty($body)) {
-                                @mkdir(dirname($file), 0777, true);
-                                @file_put_contents($file, $body);
-                            }
-                        } else {
-                            $body = @file_get_contents($file);
-                        }
+                        $body = static::curl($url);
                         if (!empty($body)) {
-                            $content = $content . $body . "\r\n";
+                            @mkdir(dirname($fileName), 0777, true);
+                            @file_put_contents($fileName, $body);
                         }
                     }
+                } else {
+                    $body = @file_get_contents($fileName);
                 }
-                if (!empty($content)) {
-                    @mkdir(dirname($routFile), 0777, true);
-                    @file_put_contents($routFile, $content);
+                if (!empty($body)) {
+                    $content = $content . $body . "\r\n";
                 }
+            }
+            if (!empty($content)) {
+                @mkdir(dirname($routFile), 0777, true);
+                @file_put_contents($routFile, $content);
             }
         }
     }
 
     /**
      * 下载
-     * @param array $array
-     * @param bool  $update
+     * @param array $down   下载列表[保存路径=>下载地址]
+     * @param mixed $save   保存路径
+     * @param bool  $update 是否强制更新
+     * @param bool  $cli    是否cli
      * @return void
      */
-    public static function downFile(array $array, bool $update = false): void {
-        $layuiCssUrl = "";
-        $layuiCssPath = "";
-        foreach ($array as $k => $v) {
-            $file = (__DIR__ . '/../file/' . trim($k, '/'));
+    public static function downFile(array $down, mixed $save, bool $update = false, bool $cli = false): void {
+        $CssPath = "";
+        $CssUrl = "";
+        $save = rtrim(($save ?: __DIR__ . '/../file/'), '/') . "/";
+        foreach ($down as $k => $v) {
+            $file = $save . trim($k, '/');
             if (empty(is_file($file)) || !empty($update)) {
-                $path = static::down($file, $v);
-                if (basename($v) == "layui.css") {
-                    $layuiCssPath = $path;
-                    $layuiCssUrl = dirname($v, 2);
+                $path = static::down($file, $v, $cli);
+                if (strtolower(basename($v)) == "layui.css") {
+                    $CssPath = $path;
+                    $CssUrl = $v;
                 }
             }
         }
-        if (!empty($layuiCssPath)) {
-            $css = @file_get_contents($layuiCssPath);
+        static::layCss($CssPath, $CssUrl, $cli);
+        if ($cli) {
+            print_r("============================================================================\r\n");
+        }
+    }
+
+    /**
+     * 下载layui.css里面的文件
+     * @param string $path layui.css路径
+     * @param string $url  layui.css下载地址
+     * @param bool   $cli  是否cli
+     * @return void
+     */
+    public static function layCss(string $path, string $url, bool $cli = false): void {
+        if (!empty($path)) {
+            $css = @file_get_contents($path);
             if ($css) {
                 $pattern = '/url\(\s*[\'"]?\.\.\/font\/([^"\'\s\)?#]+)/i';
                 preg_match_all($pattern, $css, $matches);
                 if (!empty($list = ($matches[1] ?? []))) {
                     $list = array_unique($list);
                     foreach ($list as $item) {
-                        $file = rtrim(dirname($layuiCssPath, 2), '/') . '/font/' . trim($item);
+                        $file = rtrim(dirname($path, 2), '/') . '/font/' . trim($item);
                         if (empty(is_file($file)) || !empty($update)) {
-                            static::down($file, trim($layuiCssUrl, '/') . "/font/" . trim($item));
+                            static::down($file, trim(dirname($url, 2), '/') . "/font/" . trim($item), $cli);
                         }
                     }
                 }
             }
         }
-        print_r("============================================================================\r\n");
     }
 
     /**
-     * @param $url
-     * @param $path
+     * 下载文件
+     * @param string $path 保存路径
+     * @param string $url  下载地址
+     * @param bool   $cli  是否cli
      * @return string
      */
-    public static function down($path, $url): string {
+    public static function down(string $path, string $url, bool $cli = false): string {
         $pro = 0;
-        print_r("============================================================================\r\n");
-        print_r("url: " . $url . "\r\n");
-        print_r("path: " . str_replace(__DIR__ . '/../file/', "", $path) . "\r\n");
-        $body = static::curl($url, function($progress) use ($url, &$pro) {
+        if ($cli) {
+            print_r("============================================================================\r\n");
+            print_r("url: " . $url . "\r\n");
+            print_r("path: " . $path . "\r\n");
+        }
+        $body = static::curl($url, $cli ? (function($progress) use ($url, &$pro) {
             $pro = $progress;
             print_r("progress: $progress%\r");
-        });
-        print_r("progress:$pro%\r\n");
+        }) : null);
+        if ($cli) {
+            print_r("progress:$pro%\r\n");
+        }
         if (!empty($body)) {
             @mkdir(dirname($path), 0777, true);
             @file_put_contents($path, $body);
@@ -188,8 +194,9 @@ class Facade {
     }
 
     /**
-     * @param string        $url
-     * @param callable|null $progress
+     * curl
+     * @param string        $url      下载地址
+     * @param callable|null $progress 回调包
      * @return string
      */
     public static function curl(string $url, callable|null $progress = null): string {
@@ -215,8 +222,9 @@ class Facade {
     }
 
     /**
-     * @param string $name
-     * @param array  $arguments
+     * 回调
+     * @param string $name      方法名
+     * @param array  $arguments 参数
      * @return int
      */
     public static function __callStatic(string $name, array $arguments): int {

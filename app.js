@@ -4,7 +4,7 @@
  * @param {function|Array} [loading]
  */
 function alone_app(callback, loading) {
-    loading = typeof loading === 'undefined' ? JSON.parse("%loaderIng%") : loading;
+    loading = typeof loading === 'undefined' ? JSON.parse('["/alone/js/layui/css/layui.css","/alone/js/layui/layui.js"]') : loading;
     const call = typeof callback === 'function' ? callback : (typeof loading === 'function' ? loading : () => null);
     const load = Array.isArray(callback) ? callback : (Array.isArray(loading) ? loading : []);
     let length = load.length;
