@@ -56,12 +56,7 @@ class Facade {
                 $filePath = $save . $path;
                 if (empty(is_file($filePath)) || !empty($update)) {
                     if (!empty($url = ($down[$path] ?? ''))) {
-                        $body = static::curl($url);
-                        if (!empty($body)) {
-                            @mkdir(dirname($filePath), 0777, true);
-                            @file_put_contents($filePath, $body);
-                            return response()->file($filePath);
-                        }
+                        Facade::downFile([$path => $url], $save, !empty($update));
                     }
                     return response("error", 404);
                 }
