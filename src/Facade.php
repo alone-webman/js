@@ -14,11 +14,14 @@ class Facade {
      * @return void
      */
     public static function route($app): void {
+        $config = $app['config'] ?? [];
+        $name = $app['down'] ?? key($config);
+        $down = $app[$name] ?? [];
         $path = $app['path'] ?? '';
-        $down = $app['down'] ?? '';
         $route = $app['route'] ?? '';
         $loading = $app['loading'] ?? [];
         $save = rtrim((($app['save'] ?? "") ?: __DIR__ . '/../file/'), '/') . "/";
+        $save = rtrim($save, '/') . "/" . $name . "/";
         if (empty($loading)) {
             $loading = [];
             foreach ($down as $k => $v) {
@@ -40,7 +43,7 @@ class Facade {
             $val = is_array($arr) ? $arr : explode(',', $arr);
             Route::get("/" . trim($rout, '/'), function(Request $req) use ($save, $down, $rout, $val) {
                 $update = $req->get('update');
-                $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
+                $routFile = $save . 'route/' . trim($rout, '/');
                 (empty(is_file($routFile)) || !empty($update)) && static::updateRoute($rout, $val, $down, $save);
                 if (!empty(is_file($routFile))) {
                     return response()->file($routFile);
@@ -66,6 +69,19 @@ class Facade {
         }
     }
 
+    public static function cliUpdate(): void {
+        $app = include(__DIR__ . '/../config/app.php');
+        $config = $app['config'] ?? [];
+        $name = $app['down'] ?? key($config);
+        $down = $app[$name] ?? [];
+        $save = ($app["save"] ?? '') ?: __DIR__ . '/../file/';
+        $save = rtrim($save, '/') . "/" . $name . "/";
+        Facade::downFile($down, $save, true, true);
+        foreach (($app['route'] ?? []) as $rout => $arr) {
+            Facade::updateRoute($rout, $arr, $down, $save);
+        }
+    }
+
     /**
      * 生成文件
      * @param string       $rout 路由名
@@ -75,8 +91,7 @@ class Facade {
      * @return void
      */
     public static function updateRoute(string $rout, array|string $arr, array $down, string $save): void {
-        $save = rtrim(($save ?: __DIR__ . '/../file/'), '/') . "/";
-        $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
+        $routFile = $save . 'route/' . trim($rout, '/');
         if (empty(is_file($routFile))) {
             $content = "";
             $val = is_array($arr) ? $arr : explode(',', $arr);
@@ -120,7 +135,6 @@ class Facade {
     public static function downFile(array $down, mixed $save, bool $update = false, bool $cli = false): void {
         $CssPath = "";
         $CssUrl = "";
-        $save = rtrim(($save ?: __DIR__ . '/../file/'), '/') . "/";
         foreach ($down as $k => $v) {
             $file = $save . trim($k, '/');
             if (empty(is_file($file)) || !empty($update)) {

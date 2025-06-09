@@ -43,6 +43,7 @@ class Install {
             copy_dir(__DIR__ . "/../$source", base_path($dest));
             echo "Create $dest";
         }
+        Facade::cliUpdate();
     }
 
     /**
