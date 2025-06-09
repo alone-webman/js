@@ -40,7 +40,7 @@ class Facade {
             $val = is_array($arr) ? $arr : explode(',', $arr);
             Route::get("/" . trim($rout, '/'), function(Request $req) use ($save, $down, $rout, $val) {
                 $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
-                (empty(is_file($routFile))) && static::updateRoute($rout, $val, $save);
+                (empty(is_file($routFile))) && static::updateRoute($rout, $val, $down, $save);
                 if (!empty(is_file($routFile))) {
                     return response()->file($routFile);
                 }
@@ -74,11 +74,11 @@ class Facade {
      * 生成文件
      * @param string       $rout 路由名
      * @param array|string $arr  列表
+     * @param array        $down
      * @param string       $save
      * @return void
      */
-    public static function updateRoute(string $rout, array|string $arr, string $save): void {
-        $down = $app['down'] ?? [];
+    public static function updateRoute(string $rout, array|string $arr, array $down, string $save): void {
         $save = rtrim(($save ?: __DIR__ . '/../file/'), '/') . "/";
         $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
         if (empty(is_file($routFile))) {
