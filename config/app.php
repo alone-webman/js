@@ -12,24 +12,24 @@ return [
     /*
      * 下载那个列表
      */
-    'down'    => "prod",
+    'down'    => "dev",
     /*
      * 设置下载列表 (相对路径=>下载地址)
      */
     "config"  => [
-        'prod'   => [
-            "layui/css/layui.css" => "https://unpkg.com/layui@latest/dist/css/layui.css",
-            "layui/layui.js"      => "https://unpkg.com/layui@latest/dist/layui.js",
-            "vue/vue.js"          => "https://unpkg.com/vue@latest/dist/vue.global.prod.js",
-            "vue/vue-router.js"   => "https://unpkg.com/vue-router@latest/dist/vue-router.global.prod.js",
-            "vue/vue-i18n.js"     => "https://unpkg.com/vue-i18n@latest/dist/vue-i18n.global.prod.js"
-        ],
-        'global' => [
+        'dev'  => [
             "layui/css/layui.css" => "https://unpkg.com/layui@latest/dist/css/layui.css",
             "layui/layui.js"      => "https://unpkg.com/layui@latest/dist/layui.js",
             "vue/vue.js"          => "https://unpkg.com/vue@latest/dist/vue.global.js",
             "vue/vue-router.js"   => "https://unpkg.com/vue-router@latest/dist/vue-router.global.js",
             "vue/vue-i18n.js"     => "https://unpkg.com/vue-i18n@latest/dist/vue-i18n.global.js"
+        ],
+        'prod' => [
+            "layui/css/layui.css" => "https://unpkg.com/layui@latest/dist/css/layui.css",
+            "layui/layui.js"      => "https://unpkg.com/layui@latest/dist/layui.js",
+            "vue/vue.js"          => "https://unpkg.com/vue@latest/dist/vue.global.prod.js",
+            "vue/vue-router.js"   => "https://unpkg.com/vue-router@latest/dist/vue-router.global.prod.js",
+            "vue/vue-i18n.js"     => "https://unpkg.com/vue-i18n@latest/dist/vue-i18n.global.prod.js"
         ]
     ],
     /*
