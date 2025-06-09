@@ -39,8 +39,9 @@ class Facade {
         foreach ($route as $rout => $arr) {
             $val = is_array($arr) ? $arr : explode(',', $arr);
             Route::get("/" . trim($rout, '/'), function(Request $req) use ($save, $down, $rout, $val) {
+                $update = $req->get('update');
                 $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
-                (empty(is_file($routFile))) && static::updateRoute($rout, $val, $down, $save);
+                (empty(is_file($routFile)) || !empty($update)) && static::updateRoute($rout, $val, $down, $save);
                 if (!empty(is_file($routFile))) {
                     return response()->file($routFile);
                 }
