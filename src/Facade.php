@@ -16,7 +16,7 @@ class Facade {
     public static function route($app): void {
         $config = $app['config'] ?? [];
         $name = $app['down'] ?? key($config);
-        $down = $app[$name] ?? [];
+        $down = $app['config'][$name] ?? [];
         $path = $app['path'] ?? '';
         $route = $app['route'] ?? '';
         $loading = $app['loading'] ?? [];
@@ -73,10 +73,10 @@ class Facade {
         $app = include(__DIR__ . '/../config/app.php');
         $config = $app['config'] ?? [];
         $name = $app['down'] ?? key($config);
-        $down = $app[$name] ?? [];
+        $down = $app['config'][$name] ?? [];
         $save = ($app["save"] ?? '') ?: __DIR__ . '/../file/';
         $save = rtrim($save, '/') . "/" . $name . "/";
-        Facade::downFile($down, $save, true, true);
+        Facade::downFile($down, $save, false, true);
         foreach (($app['route'] ?? []) as $rout => $arr) {
             Facade::updateRoute($rout, $arr, $down, $save);
         }

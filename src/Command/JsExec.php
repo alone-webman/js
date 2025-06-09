@@ -21,7 +21,7 @@ class JsExec extends Command {
         $app = config('plugin.alone.js.app', []);
         $config = $app['config'] ?? [];
         $name = $app['down'] ?? key($config);
-        $down = $app[$name] ?? [];
+        $down = $app['config'][$name] ?? [];
         $save = ($app["save"] ?? '') ?: __DIR__ . '/../../file/';
         $save = rtrim($save, '/') . "/" . $name . "/";
         Facade::downFile($down, $save, !empty($update), true);
