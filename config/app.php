@@ -23,7 +23,7 @@ return [
      * 路由文件 (保存的相对路径),"/开头自定绝对路径"
      */
     'route'   => [
-        'alone/js/vue.js' => ["vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
+        'alone/vue.js' => ["vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
     ],
     /*
      * alone_app加载 (完全的访问路径)
@@ -31,6 +31,6 @@ return [
     "loading" => [
         "/alone/js/layui/css/layui.css",
         "/alone/js/layui/layui.js",
-        "/alone/js/vue.js"
+        "/alone/vue.js"
     ]
 ];
