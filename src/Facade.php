@@ -35,6 +35,19 @@ class Facade {
             return response($body)->withHeaders(["Content-Type" => "application/javascript"]);
         })->name('alone.js.app');
 
+
+        foreach ($route as $rout => $arr) {
+            $val = is_array($arr) ? $arr : explode(',', $arr);
+            Route::get("/" . trim($rout, '/'), function(Request $req) use ($save, $down, $rout, $val) {
+                $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
+                (empty(is_file($routFile))) && static::updateRoute($rout, $val);
+                if (!empty(is_file($routFile))) {
+                    return response()->file($routFile);
+                }
+                return response("error", 404);
+            })->name('alone.js.route.' . $rout);
+        }
+        
         //单独访问
         if (!empty($path)) {
             Route::get("/" . trim($path, '/') . '[{path:.+}]', function(Request $req, mixed $path = "") use ($save, $down) {
@@ -54,18 +67,6 @@ class Facade {
                 }
                 return response()->file($filePath);
             })->name('alone.js.path');
-        }
-
-        foreach ($route as $rout => $arr) {
-            $val = is_array($arr) ? $arr : explode(',', $arr);
-            Route::get("/" . trim($rout, '/'), function(Request $req) use ($save, $down, $rout, $val) {
-                $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
-                (empty(is_file($routFile))) && static::updateRoute($rout, $val);
-                if (!empty(is_file($routFile))) {
-                    return response()->file($routFile);
-                }
-                return response("error", 404);
-            })->name('alone.js.route.' . $rout);
         }
     }
 
