@@ -31,7 +31,7 @@ class Facade {
         //app.js
         Route::get("/alone/app.js", function(Request $req) use ($loading) {
             $body = @file_get_contents(__DIR__ . '/../app.js');
-            $body = str_replace('["/alone/js/layui/css/layui.css","/alone/js/layui/layui.js"]', "'" . json_encode($loading) . "'", $body);
+            $body = str_replace('["/alone/js/layui/css/layui.css","/alone/js/layui/layui.js"]', json_encode($loading), $body);
             return response($body)->withHeaders(["Content-Type" => "application/javascript"]);
         })->name('alone.js.app');
 
@@ -40,14 +40,14 @@ class Facade {
             $val = is_array($arr) ? $arr : explode(',', $arr);
             Route::get("/" . trim($rout, '/'), function(Request $req) use ($save, $down, $rout, $val) {
                 $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
-                (empty(is_file($routFile))) && static::updateRoute($rout, $val);
+                (empty(is_file($routFile))) && static::updateRoute($rout, $val, $save);
                 if (!empty(is_file($routFile))) {
                     return response()->file($routFile);
                 }
                 return response("error", 404);
             })->name('alone.js.route.' . $rout);
         }
-        
+
         //单独访问
         if (!empty($path)) {
             Route::get("/" . trim($path, '/') . '[{path:.+}]', function(Request $req, mixed $path = "") use ($save, $down) {
@@ -74,11 +74,12 @@ class Facade {
      * 生成文件
      * @param string       $rout 路由名
      * @param array|string $arr  列表
+     * @param string       $save
      * @return void
      */
-    public static function updateRoute(string $rout, array|string $arr): void {
+    public static function updateRoute(string $rout, array|string $arr, string $save): void {
         $down = $app['down'] ?? [];
-        $save = rtrim((($app['save'] ?? "") ?: __DIR__ . '/../file/'), '/') . "/";
+        $save = rtrim(($save ?: __DIR__ . '/../file/'), '/') . "/";
         $routFile = __DIR__ . '/../file/route/' . trim($rout, '/');
         if (empty(is_file($routFile))) {
             $content = "";
