@@ -47,6 +47,6 @@ return [
         "/alone/js/vue/vue.js",
         "/alone/js/vue/vue-router.js",
         "/alone/js/vue/vue-i18n.js",
-        "/alone/loader/loaderVue.js",
+        "/alone/loader.js",
     ]
 ];
