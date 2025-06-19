@@ -30,6 +30,9 @@ class Facade {
                 }
             }
         }
+        Route::get("/alone/loader/loaderVue.js", function(Request $req) {
+            return response()->file(__DIR__ . '/../file/style/loaderVue.js');
+        })->name('alone.loaderVue');
 
         //app.js
         Route::get("/alone/app.js", function(Request $req) use ($loading) {

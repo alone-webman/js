@@ -44,6 +44,9 @@ return [
     "loading" => [
         "/alone/js/layui/css/layui.css",
         "/alone/js/layui/layui.js",
-        "/alone/vue.js"
+        "/alone/js/vue/vue.js",
+        "/alone/js/vue/vue-router.js",
+        "/alone/js/vue/vue-i18n.js",
+        "/alone/loader/loaderVue.js",
     ]
 ];
