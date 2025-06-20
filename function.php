@@ -45,9 +45,9 @@ function alone_vue_route(string $path, string $dir): void {
     $path = trim(trim($path, '\\'), '/');
     Route::get('/' . $path . '/[{path:.+}]', function($req) use ($path, $dir) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
-        $file = base_path(trim(trim($dir, '\\'), '/') . "$name");
+        $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $res = response()->file($file);
-        return strtolower(pathinfo($name, PATHINFO_EXTENSION)) == 'vue' ? $res->withHeaders(['Content-Type' => 'text/html']) : $res;
+        return strtolower(pathinfo($file, PATHINFO_EXTENSION)) == 'vue' ? $res->withHeaders(['Content-Type' => 'text/html']) : $res;
     });
 }
 
@@ -56,11 +56,11 @@ function alone_vue_route(string $path, string $dir): void {
  * @param string $dir  文件目录
  * @return void
  */
-function alone_url_route(string $path, string $dir): void {
+function alone_text_route(string $path, string $dir): void {
     $path = trim(trim($path, '\\'), '/');
     Route::get('/' . $path . '/[{path:.+}]', function($req) use ($path, $dir) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
-        $file = base_path(trim(trim($dir, '\\'), '/') . "$name");
+        $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $body = @file_get_contents($file);
         return response(alone_safe_url_en($body), 200, ['Content-Type' => 'text/plain']);
     });
@@ -71,12 +71,12 @@ function alone_url_route(string $path, string $dir): void {
  * @param string $dir  文件目录
  * @return void
  */
-function alone_mov_route(string $path, string $dir): void {
+function alone_json_route(string $path, string $dir): void {
     $path = trim(trim($path, '\\'), '/');
     Route::get('/' . $path . '/[{path:.+}]', function($req) use ($path, $dir) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
-        $file = base_path(trim(trim($dir, '\\'), '/') . "$name");
+        $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $body = @file_get_contents($file);
-        return response(alone_safe_mov_en($body), 200, ['Content-Type' => 'text/plain']);
+        return json(alone_safe_mov_en($body));
     });
 }
