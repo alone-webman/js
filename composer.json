@@ -17,6 +17,7 @@
   },
   "require-dev":{
     "workerman/webman-framework":"^2.1",
-    "webman/console":"^2.1"
+    "webman/console":"^2.1",
+    "alone-php/safe":"^1.0"
   }
 }
