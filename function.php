@@ -62,6 +62,10 @@ function alone_text_route(string $path, string $dir): void {
     Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
+        $format = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        if ($format === 'css') {
+            return response()->file($file);
+        }
         $body = @file_get_contents($file);
         return response(alone_safe_url_en($body), 200, ['Content-Type' => 'text/plain']);
     })->name("alone_text_" . $path);
@@ -77,6 +81,10 @@ function alone_json_route(string $path, string $dir): void {
     Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
+        $format = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        if ($format === 'css') {
+            return response()->file($file);
+        }
         $body = @file_get_contents($file);
         return json(alone_safe_mov_en($body));
     })->name("alone_json_" . $path);
