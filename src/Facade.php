@@ -31,10 +31,6 @@ class Facade {
             }
         }
 
-        Route::get("/alone/loader.js", function(Request $req) {
-            return response()->file(__DIR__ . '/../file/style/loaderVue.js');
-        })->name('alone.loaderVue');
-
         //app.js
         Route::get("/alone/app.js", function(Request $req) use ($loading) {
             $body = @file_get_contents(__DIR__ . '/../app.js');
@@ -42,6 +38,10 @@ class Facade {
             return response($body)->withHeaders(["Content-Type" => "application/javascript"]);
         })->name('alone.js.app');
 
+
+        Route::get("/alone/loader.js", function(Request $req) {
+            return response()->file(__DIR__ . '/../file/style/loaderVue.js');
+        })->name('alone.loader');
 
         foreach ($route as $rout => $arr) {
             $val = is_array($arr) ? $arr : explode(',', $arr);
