@@ -45,6 +45,6 @@ return [
         "/alone/js/layui/css/layui.css",
         "/alone/js/layui/layui.js",
         "/alone/vue.js",
-        "/alone/loader.js",
+        "/alone/loadVue.js",
     ]
 ];

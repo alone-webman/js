@@ -39,9 +39,9 @@ class Facade {
         })->name('alone.js.app');
 
 
-        Route::get("/alone/loader.js", function(Request $req) {
-            return response()->file(__DIR__ . '/../file/style/loaderVue.js');
-        })->name('alone.loader');
+        Route::get("/alone/loadVue.js", function(Request $req) {
+            return response()->file(__DIR__ . '/../file/style/loadVue.js');
+        })->name('alone.loadVue');
 
         foreach ($route as $rout => $arr) {
             $val = is_array($arr) ? $arr : explode(',', $arr);
