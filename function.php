@@ -49,7 +49,7 @@ function alone_vue_route(string $path, string $dir): void {
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $res = response()->file($file);
         return strtolower(pathinfo($file, PATHINFO_EXTENSION)) == 'vue' ? $res->withHeaders(['Content-Type' => 'text/html']) : $res;
-    });
+    })->name("alone_vue_" . $path);
 }
 
 /**
@@ -64,7 +64,7 @@ function alone_text_route(string $path, string $dir): void {
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $body = @file_get_contents($file);
         return response(alone_safe_url_en($body), 200, ['Content-Type' => 'text/plain']);
-    });
+    })->name("alone_text_" . $path);
 }
 
 /**
@@ -79,5 +79,5 @@ function alone_json_route(string $path, string $dir): void {
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $body = @file_get_contents($file);
         return json(alone_safe_mov_en($body));
-    });
+    })->name("alone_json_" . $path);
 }
