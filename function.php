@@ -1,6 +1,7 @@
 <?php
 
 use Webman\Route;
+use support\Request;
 use support\Response;
 use AloneWebMan\Js\Facade;
 use AloneWebMan\Js\VueClass;
@@ -43,7 +44,7 @@ function alone_vue_to_js(string $file): string {
  */
 function alone_vue_route(string $path, string $dir): void {
     $path = trim(trim($path, '\\'), '/');
-    Route::get('/' . $path . '/[{path:.+}]', function($req) use ($path, $dir) {
+    Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $res = response()->file($file);
@@ -58,7 +59,7 @@ function alone_vue_route(string $path, string $dir): void {
  */
 function alone_text_route(string $path, string $dir): void {
     $path = trim(trim($path, '\\'), '/');
-    Route::get('/' . $path . '/[{path:.+}]', function($req) use ($path, $dir) {
+    Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $body = @file_get_contents($file);
@@ -73,7 +74,7 @@ function alone_text_route(string $path, string $dir): void {
  */
 function alone_json_route(string $path, string $dir): void {
     $path = trim(trim($path, '\\'), '/');
-    Route::get('/' . $path . '/[{path:.+}]', function($req) use ($path, $dir) {
+    Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $body = @file_get_contents($file);
