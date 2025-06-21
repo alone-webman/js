@@ -39,8 +39,8 @@ class Facade {
         })->name('alone.js.app');
 
 
-        Route::get("/alone/loadVue.js", function(Request $req) {
-            return response()->file(__DIR__ . '/../file/style/loadVue.js');
+        Route::get("/alone/aloneApp.js", function(Request $req) {
+            return response()->file(__DIR__ . '/../file/aloneApp.js');
         })->name('alone.loadVue');
 
         foreach ($route as $rout => $arr) {
