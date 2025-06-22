@@ -38,54 +38,62 @@ function alone_vue_to_js(string $file): string {
 }
 
 /**
- * @param string $path 访问路径
- * @param string $dir  文件目录
+ * @param string    $path 访问路径
+ * @param string    $dir  文件目录
+ * @param bool|null $blob 是否blob
  * @return void
  */
-function alone_vue_route(string $path, string $dir): void {
+function alone_vue_route(string $path, string $dir, bool|null $blob = null): void {
     $path = trim(trim($path, '\\'), '/');
-    Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir) {
+    Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir, $blob) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $res = response()->file($file);
-        return strtolower(pathinfo($file, PATHINFO_EXTENSION)) == 'vue' ? $res->withHeaders(['Content-Type' => 'text/html']) : $res;
+        $response = strtolower(pathinfo($file, PATHINFO_EXTENSION)) == 'vue' ? $res->withHeaders(['Content-Type' => 'text/html']) : $res;
+        return $blob === null ? $response : ($response->withHeaders(["alone" => $blob ? "blob" : "text"]));
     })->name("alone_vue_" . $path);
 }
 
 /**
- * @param string $path 访问路径
- * @param string $dir  文件目录
+ * @param string    $path 访问路径
+ * @param string    $dir  文件目录
+ * @param bool|null $blob 是否blob
  * @return void
  */
-function alone_text_route(string $path, string $dir): void {
+function alone_text_route(string $path, string $dir, bool|null $blob = null): void {
     $path = trim(trim($path, '\\'), '/');
-    Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir) {
+    Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir, $blob) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $format = strtolower(pathinfo($file, PATHINFO_EXTENSION));
         if ($format === 'css') {
-            return response()->file($file);
+            $response = response()->file($file);
+        } else {
+            $body = @file_get_contents($file);
+            $response = response(alone_safe_url_en($body), 200, ['Content-Type' => 'text/plain']);
         }
-        $body = @file_get_contents($file);
-        return response(alone_safe_url_en($body), 200, ['Content-Type' => 'text/plain']);
+        return $blob === null ? $response : ($response->withHeaders(["alone" => $blob ? "blob" : "text"]));
     })->name("alone_text_" . $path);
 }
 
 /**
- * @param string $path 访问路径
- * @param string $dir  文件目录
+ * @param string    $path 访问路径
+ * @param string    $dir  文件目录
+ * @param bool|null $blob 是否blob
  * @return void
  */
-function alone_json_route(string $path, string $dir): void {
+function alone_json_route(string $path, string $dir, bool|null $blob = null): void {
     $path = trim(trim($path, '\\'), '/');
-    Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir) {
+    Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir, $blob) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $format = strtolower(pathinfo($file, PATHINFO_EXTENSION));
         if ($format === 'css') {
-            return response()->file($file);
+            $response = response()->file($file);
+        } else {
+            $body = @file_get_contents($file);
+            $response = json(alone_safe_mov_en($body));
         }
-        $body = @file_get_contents($file);
-        return json(alone_safe_mov_en($body));
+        return $blob === null ? $response : ($response->withHeaders(["alone" => $blob ? "blob" : "text"]));
     })->name("alone_json_" . $path);
 }
