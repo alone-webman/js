@@ -50,7 +50,10 @@ function alone_vue_route(string $path, string $dir, bool|null $blob = null): voi
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $res = response()->file($file);
         $response = strtolower(pathinfo($file, PATHINFO_EXTENSION)) == 'vue' ? $res->withHeaders(['Content-Type' => 'text/html']) : $res;
-        return $blob === null ? $response : ($response->withHeaders(["alone" => $blob ? "blob" : "text"]));
+        return $blob === null ? $response : ($response->withHeaders([
+            'Access-Control-Expose-Headers' => 'alone',
+            "alone"                         => $blob ? "blob" : "text"
+        ]));
     })->name("alone_vue_" . $path);
 }
 
@@ -72,7 +75,10 @@ function alone_text_route(string $path, string $dir, bool|null $blob = null): vo
             $body = @file_get_contents($file);
             $response = response(alone_safe_url_en($body), 200, ['Content-Type' => 'text/plain']);
         }
-        return $blob === null ? $response : ($response->withHeaders(["alone" => $blob ? "blob" : "text"]));
+        return $blob === null ? $response : ($response->withHeaders([
+            'Access-Control-Expose-Headers' => 'alone',
+            "alone"                         => $blob ? "blob" : "text"
+        ]));
     })->name("alone_text_" . $path);
 }
 
@@ -94,6 +100,9 @@ function alone_json_route(string $path, string $dir, bool|null $blob = null): vo
             $body = @file_get_contents($file);
             $response = json(alone_safe_mov_en($body));
         }
-        return $blob === null ? $response : ($response->withHeaders(["alone" => $blob ? "blob" : "text"]));
+        return $blob === null ? $response : ($response->withHeaders([
+            'Access-Control-Expose-Headers' => 'alone',
+            "alone"                         => $blob ? "blob" : "text"
+        ]));
     })->name("alone_json_" . $path);
 }
