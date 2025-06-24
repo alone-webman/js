@@ -149,7 +149,7 @@ class Facade {
                 }
             }
         }
-        static::layCss($CssPath, $CssUrl, $cli);
+        static::layCss($CssPath, $CssUrl, $update, $cli);
         if ($cli) {
             print_r("============================================================================\r\n");
         }
@@ -157,12 +157,13 @@ class Facade {
 
     /**
      * 下载layui.css里面的文件
-     * @param string $path layui.css路径
-     * @param string $url  layui.css下载地址
-     * @param bool   $cli  是否cli
+     * @param string $path   layui.css路径
+     * @param string $url    layui.css下载地址
+     * @param bool   $update 是否强制更新
+     * @param bool   $cli    是否cli
      * @return void
      */
-    public static function layCss(string $path, string $url, bool $cli = false): void {
+    public static function layCss(string $path, string $url, bool $update = false, bool $cli = false): void {
         if (!empty($path)) {
             $css = @file_get_contents($path);
             if ($css) {
