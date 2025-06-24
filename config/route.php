@@ -1,2 +1,2 @@
 <?php
-alone_js_route();
+\AloneWebMan\Js\Facade::route(config('plugin.alone.js.app', []));
