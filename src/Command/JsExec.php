@@ -28,7 +28,7 @@ class JsExec extends Command {
         foreach (($app['route'] ?? []) as $rout => $arr) {
             Facade::updateRoute($rout, $arr, $down, $save, !empty($update));
         }
-        copy_dir(__DIR__ . "/../../file/aloneAppTypes.js", base_path('config/plugin/alone/js/style/aloneAppTypes.js'));
+        copy_dir(__DIR__ . "/../../file/aloneAppTypes.js", $save . 'types/aloneApp.js');
         return self::SUCCESS;
     }
 }
