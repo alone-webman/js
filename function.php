@@ -28,7 +28,7 @@ function alone_vue_route(string $path, string $dir, string $type = "vue", string
         $name = (substr($req->path(), strlen("/" . $path . "/")));
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');
         $layout = pathinfo($file, PATHINFO_EXTENSION);
-        $file = empty($layout) ? $file . ($format ? ($file . "." . $format) : $file) : $file;
+        $file = empty($layout) ? (!empty($format) ? ($file . "." . $format) : $file) : $file;
         $layout = empty($layout) ? $format : $layout;
         if (empty($layout) || in_array(strtolower($layout), ['vue', 'js', 'html'])) {
             return match ($type) {
