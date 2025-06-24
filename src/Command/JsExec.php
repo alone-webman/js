@@ -26,7 +26,7 @@ class JsExec extends Command {
         $save = rtrim($save, '/') . "/" . $name . "/";
         Facade::downFile($down, $save, !empty($update), true);
         foreach (($app['route'] ?? []) as $rout => $arr) {
-            print_r(Facade::updateRoute($rout, $arr, $down, $save, !empty($update)));
+            Facade::updateRoute($rout, $arr, $down, $save, !empty($update));
         }
         return self::SUCCESS;
     }
