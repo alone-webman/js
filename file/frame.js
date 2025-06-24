@@ -51,15 +51,15 @@ const frame = {
     /**
      * @type {Vue}
      */
-    vue: aloneApp.vueWay.vue,
+    vue: aloneApp.vue,
     /**
      * @type {VueRouter}
      */
-    vueRouter: aloneApp.vueWay.router,
+    vueRouter: aloneApp.vueRouter,
     /**
      * @type {VueI18n}
      */
-    vueI18n: aloneApp.vueWay.i18n,
+    vueI18n: aloneApp.vueI18n,
     /**
      * @type {Vue.createApp}
      */
