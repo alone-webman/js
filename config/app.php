@@ -36,6 +36,11 @@ return [
      * 路由文件 (保存的相对路径),"/开头自定绝对路径"
      */
     'route'  => [
-        'alone/vue.js' => ["vue/vue.js", "vue/vue-router.js", "vue/vue-i18n.js"]
+        'alone/vue.js' => [
+            "vue/vue.js",
+            "vue/vue-router.js",
+            "vue/vue-i18n.js",
+            base_path('vendor/alone-webman/js/file/aloneApp.js')
+        ]
     ]
 ];
