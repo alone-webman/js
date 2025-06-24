@@ -21,11 +21,9 @@ class Facade {
         $route = $app['route'] ?? '';
         $save = rtrim((($app['save'] ?? "") ?: __DIR__ . '/../file/'), '/') . "/";
         $save = rtrim($save, '/') . "/" . $name . "/";
-
         Route::get("/alone/vueLoader.js", function(Request $req) {
             return response()->file(__DIR__ . '/../file/aloneApp.js');
         })->name('alone.loadVue');
-
         foreach ($route as $rout => $arr) {
             $val = is_array($arr) ? $arr : explode(',', $arr);
             Route::get("/" . trim($rout, '/'), function(Request $req) use ($save, $down, $rout, $val) {
@@ -38,7 +36,6 @@ class Facade {
                 return response("error", 404);
             })->name('alone.js.route.' . $rout);
         }
-
         //单独访问
         if (!empty($path)) {
             Route::get("/" . trim($path, '/') . '/[{path:.+}]', function(Request $req, mixed $path = "") use ($save, $down) {
@@ -56,30 +53,18 @@ class Facade {
         }
     }
 
-    public static function cliUpdate(): void {
-        $app = include(__DIR__ . '/../config/app.php');
-        $config = $app['config'] ?? [];
-        $name = $app['down'] ?? key($config);
-        $down = $app['config'][$name] ?? [];
-        $save = ($app["save"] ?? '') ?: __DIR__ . '/../file/';
-        $save = rtrim($save, '/') . "/" . $name . "/";
-        Facade::downFile($down, $save, false, true);
-        foreach (($app['route'] ?? []) as $rout => $arr) {
-            Facade::updateRoute($rout, $arr, $down, $save);
-        }
-    }
-
     /**
      * 生成文件
      * @param string       $rout 路由名
      * @param array|string $arr  列表
      * @param array        $down
      * @param string       $save
+     * @param bool         $update
      * @return void
      */
-    public static function updateRoute(string $rout, array|string $arr, array $down, string $save): void {
+    public static function updateRoute(string $rout, array|string $arr, array $down, string $save, bool $update = false): void {
         $routFile = $save . 'route/' . trim($rout, '/');
-        if (empty(is_file($routFile))) {
+        if ($update || empty(is_file($routFile))) {
             $content = "";
             $val = is_array($arr) ? $arr : explode(',', $arr);
             foreach ($val as $file) {
