@@ -1,4 +1,5 @@
 /**
+ * aloneApp使用提示
  * === app配置 ===
  * @typedef {Object} appConfig
  * @property {string}        [elem]        容器（默认 app）
