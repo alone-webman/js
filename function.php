@@ -2,6 +2,7 @@
 
 use Webman\Route;
 use support\Request;
+use AloneWebMan\Js\Facade;
 use AloneWebMan\Js\VueClass;
 
 /**
@@ -37,4 +38,12 @@ function alone_vue_route(string $path, string $dir, string $type = "vue", string
         }
         return response()->file($file);
     })->name("alone_vue_" . $path);
+}
+
+/**
+ * 路由列表
+ * @return void
+ */
+function alone_js_route(): void {
+    AloneWebMan\Js\Facade::route(config('plugin.alone.js.app', []));
 }
