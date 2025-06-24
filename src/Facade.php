@@ -58,7 +58,7 @@ class Facade {
 
         //单独访问
         if (!empty($path)) {
-            Route::get("/" . trim($path, '/') . '[{path:.+}]', function(Request $req, mixed $path = "") use ($save, $down) {
+            Route::get("/" . trim($path, '/') . '/[{path:.+}]', function(Request $req, mixed $path = "") use ($save, $down) {
                 $path = trim($path, '/');
                 $update = $req->get('update');
                 $filePath = $save . $path;
