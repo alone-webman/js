@@ -21,9 +21,6 @@ class Facade {
         $route = $app['route'] ?? '';
         $save = rtrim((($app['save'] ?? "") ?: __DIR__ . '/../file/'), '/') . "/";
         $save = rtrim($save, '/') . "/" . $name . "/";
-        Route::get("/alone/vueLoader.js", function(Request $req) {
-            return response()->file(__DIR__ . '/../file/aloneApp.js');
-        })->name('alone.loadVue');
         foreach ($route as $rout => $arr) {
             $val = is_array($arr) ? $arr : explode(',', $arr);
             Route::get("/" . trim($rout, '/'), function(Request $req) use ($save, $down, $rout, $val) {
@@ -38,6 +35,9 @@ class Facade {
         }
         //单独访问
         if (!empty($path)) {
+            Route::get("/" . trim($path, '/') . '/aloneApp.js', function(Request $req) {
+                return response()->file(__DIR__ . '/../file/aloneApp.js');
+            })->name('alone.aloneApp');
             Route::get("/" . trim($path, '/') . '/[{path:.+}]', function(Request $req, mixed $path = "") use ($save, $down) {
                 $path = trim($path, '/');
                 $update = $req->get('update');
