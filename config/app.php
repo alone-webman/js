@@ -39,8 +39,7 @@ return [
         'style/alone/vue.js' => [
             "vue/vue.js",
             "vue/vue-router.js",
-            "vue/vue-i18n.js",
-            base_path('vendor/alone-webman/js/file/aloneApp.js')
+            "vue/vue-i18n.js"
         ]
     ]
 ];
