@@ -78,31 +78,38 @@ const frame = {
         return aloneApp.conf(key, val);
     },
     /**
+     * 获取语言
+     * @param {string|number} key
+     * @param {string|number} [def] 没找到语言时返回
+     * @returns {*}
+     */
+    lang(key, def) {
+        return aloneApp.lang(key, def);
+    },
+    /**
+     * 设置或者获取语言类型别
+     * @param {string} [key]
+     * @returns {*}
+     */
+    language(key) {
+        return aloneApp.language(key);
+    },
+    /**
+     * 设置语言
+     * @param {object}  val    语言内容
+     * @param {string}  [lang] 语言类型
+     * @returns {*}
+     */
+    setLang(val, lang = '') {
+        return aloneApp.setLang(val, lang);
+    },
+    /**
      * vue的this,代替this
      * @param type
      * @returns {*|{}|{}}
      */
     vue(type = null) {
         return aloneApp.vue(type);
-    },
-    /**
-     * 获取语言
-     * @param {string|number} key
-     * @param {string|number} [def] 没找到语言时返回
-     * @returns {*}
-     */
-    getLang(key, def) {
-        return aloneApp.getLang(key, def);
-    },
-    /**
-     * 设置语言
-     * @param {object}  val
-     * @param {string}  [lang]
-     * @param {boolean} [merge] 是否合并
-     * @returns {*}
-     */
-    setLang(val, lang = '', merge = true) {
-        return aloneApp.setLang(val, lang, merge);
     },
     /**
      * 路由跳转
