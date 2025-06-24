@@ -4,7 +4,7 @@ return [
     /*
      * 访问路径
      */
-    'path'   => "style/js",
+    'path'   => "style/alone",
     /*
      * 保存位置空时默认位置(绝对路径)
      */
@@ -36,7 +36,7 @@ return [
      * 路由文件 (保存的相对路径),"/开头自定绝对路径"
      */
     'route'  => [
-        'style/js/vue.js' => [
+        'style/alone/vue.js' => [
             "vue/vue.js",
             "vue/vue-router.js",
             "vue/vue-i18n.js",
