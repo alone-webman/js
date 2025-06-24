@@ -39,7 +39,7 @@ class Facade {
         })->name('alone.js.app');
 
 
-        Route::get("/alone/aloneApp.js", function(Request $req) {
+        Route::get("/alone/vueLoader.js", function(Request $req) {
             return response()->file(__DIR__ . '/../file/aloneApp.js');
         })->name('alone.loadVue');
 
