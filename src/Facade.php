@@ -24,13 +24,8 @@ class Facade {
         foreach ($route as $rout => $arr) {
             $val = is_array($arr) ? $arr : explode(',', $arr);
             Route::get("/" . trim($rout, '/'), function(Request $req) use ($save, $down, $rout, $val) {
-                $update = $req->get('update');
-                $routFile = $save . 'route/' . trim($rout, '/');
-                (empty(is_file($routFile)) || !empty($update)) && static::updateRoute($rout, $val, $down, $save);
-                if (!empty(is_file($routFile))) {
-                    return response()->file($routFile);
-                }
-                return response("error", 404);
+                $file = static::updateRoute($rout, $val, $down, $save, !empty($req->get('update')));
+                return response()->file($file);
             })->name('alone.js.route.' . $rout);
         }
         //单独访问
@@ -60,9 +55,9 @@ class Facade {
      * @param array        $down
      * @param string       $save
      * @param bool         $update
-     * @return void
+     * @return string
      */
-    public static function updateRoute(string $rout, array|string $arr, array $down, string $save, bool $update = false): void {
+    public static function updateRoute(string $rout, array|string $arr, array $down, string $save, bool $update = false): string {
         $routFile = $save . 'route/' . trim($rout, '/');
         if ($update || empty(is_file($routFile))) {
             $content = "";
@@ -94,6 +89,7 @@ class Facade {
                 @file_put_contents($routFile, $content);
             }
         }
+        return $routFile;
     }
 
     /**
