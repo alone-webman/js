@@ -5,13 +5,14 @@
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1, maximum-scale=1, user-scalable=no">
     <title>dev</title>
-    <script type="text/javascript" src="/alone/app.js"></script>
+    <link href="/alone/js/layui/css/layui.css" type="text/css" rel="stylesheet">
+    <script src="/alone/js/layui/layui.js"></script>
+    <script src="/alone/vue.js"></script>
+    <script src="/alone/vueLoader.js"></script>
 </head>
 <body>
 <script>
-    alone_app(function () {
-        aloneApp.app({view: "/pages", blob: false, app: "app", main: "main.js"});
-    });
+    aloneApp.app({view: "/pages", blob: false, app: "app", main: "main.js"});
 </script>
 </body>
 </html>
