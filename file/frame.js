@@ -1,5 +1,3 @@
-import vueWay from "../src/vueWay.js";
-
 /**
  * aloneApp.app(appConfig)
  * === app配置 ===
@@ -51,19 +49,19 @@ const frame = {
      */
     safe: aloneApp.safe,
     /**
-     *
+     * @type {Vue}
      */
     vue: aloneApp.vueWay.vue,
     /**
-     *
+     * @type {VueRouter}
      */
     vueRouter: aloneApp.vueWay.router,
     /**
-     *
+     * @type {VueI18n}
      */
     vueI18n: aloneApp.vueWay.i18n,
     /**
-     * createApp
+     * @type {Vue.createApp}
      */
     main: aloneApp.main,
     /**
