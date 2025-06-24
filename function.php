@@ -45,5 +45,5 @@ function alone_vue_route(string $path, string $dir, string $type = "vue", string
  * @return void
  */
 function alone_js_route(): void {
-    AloneWebMan\Js\Facade::route(config('plugin.alone.js.app', []));
+    Facade::route(config('plugin.alone.js.app', []));
 }

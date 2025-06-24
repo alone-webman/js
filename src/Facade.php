@@ -19,25 +19,8 @@ class Facade {
         $down = $app['config'][$name] ?? [];
         $path = $app['path'] ?? '';
         $route = $app['route'] ?? '';
-        $loading = $app['loading'] ?? [];
         $save = rtrim((($app['save'] ?? "") ?: __DIR__ . '/../file/'), '/') . "/";
         $save = rtrim($save, '/') . "/" . $name . "/";
-        if (empty($loading)) {
-            $loading = [];
-            foreach ($down as $k => $v) {
-                if (str_ends_with($k, 'js')) {
-                    $loading[] = "/" . trim($path, '/') . "/" . trim($k, '/');
-                }
-            }
-        }
-
-        //app.js
-        Route::get("/alone/app.js", function(Request $req) use ($loading) {
-            $body = @file_get_contents(__DIR__ . '/../app.js');
-            $body = str_replace('["/alone/js/layui/css/layui.css","/alone/js/layui/layui.js"]', json_encode($loading), $body);
-            return response($body)->withHeaders(["Content-Type" => "application/javascript"]);
-        })->name('alone.js.app');
-
 
         Route::get("/alone/vueLoader.js", function(Request $req) {
             return response()->file(__DIR__ . '/../file/aloneApp.js');
