@@ -12,39 +12,22 @@
 </head>
 <body>
 <script>
-    /**
-     * === app配置 ===
-     * @typedef {Object} appConfig
-     * @property {string}        [elem]        容器（默认 app）
-     * @property {string}        [home]        路由主页（默认 index）
-     * @property {boolean}       [match]       任意路由开关（默认 true）
-     * @property {string}        [jump]        路由不存在或者出错时跳转（默认 /）
-     * @property {object}        [group]       路由分组（默认 {}）
-     * @property {object}        [i18n]        设置i18n  （默认 {}）
-     * @property {object}        [lang]        i18n语文包（默认 {}） messages
-     * @property {object}        [router]      路由设置（默认 {}）
-     * @property {array}         [routes]      路由列表（默认 []）
-     * @property {number}        [routeType]   路由类型（默认 1）1=watch 2=watchEffect 3=isReady
-     * @property {string|null}   [app]         app主入口路径
-     * @property {string|null}   [main]        main配置文件路径
-     *
-     * === 路由配置 ===
-     * @property {string}                        [view]        请求视图（默认 /）
-     * @property {string}                        [format]      请求格式（默认 vue）
-     * @property {number}                        [timeout]     超时时间（默认 20000）
-     * @property {boolean}                       [blob]        是否使用blob使用（默认 false）
-     * @property {boolean}                       [cache]       缓存开关（默认 true）
-     * @property {boolean|function(code,type)}   [compress]    是否压缩,可以以自定压缩
-     * @property {function(body,path,type,xhr)}  [reqBody]     请求后内容处理
-     * @property {string}                        [jsFormat]    js中的import没有格式是否补格式 (默认 js）可设js|vue等,不要.
-     * @property {string}                        [cssFormat]   css中的import没有格式是否补格式 (默认 css） 可设css等,不要.
-     * @property {string|array|null}             [importType]  直接import的类型（默认 null）如js:application/javascript
-     * @property {string}                        [alone]       default中的参数名称（默认 alone) 可设置title/description/keywords/favicon/link/script//head[name:{tag:"",content:"",attr:{}}]
-     * @property {number}                        [delay]       状态设置 延迟显示（ms，默认 300）
-     * @property {function}                      [loading]     路由加载中处理包,返回显示的内容（默认 null）
-     * @property {function}                      [error]       路由加载错误处理包,返回显示的内容（默认 null）
-     */
     aloneApp.app({
+        /**
+         * === app配置 ===
+         * @property {string}        [elem]        容器（默认 app）
+         * @property {string}        [home]        路由主页（默认 index）
+         * @property {boolean}       [match]       任意路由开关（默认 true）
+         * @property {string}        [jump]        路由不存在或者出错时跳转（默认 /）
+         * @property {object}        [group]       路由分组（默认 {}）
+         * @property {object}        [i18n]        设置i18n  （默认 {}）
+         * @property {object}        [lang]        i18n语文包（默认 {}） messages
+         * @property {object}        [router]      路由设置（默认 {}）
+         * @property {array}         [routes]      路由列表（默认 []）
+         * @property {number}        [routeType]   路由类型（默认 1）1=watch 2=watchEffect 3=isReady
+         * @property {string|null}   [app]         app主入口路径
+         * @property {string|null}   [main]        main配置文件路径
+         */
         app: null,
         main: null,
         elem: "app",
@@ -57,7 +40,23 @@
         router: null,
         routes: [],
         routeType: 1,
-
+        /**
+         * === 路由配置 ===
+         * @property {string}                        [view]        请求视图（默认 /）
+         * @property {string}                        [format]      请求格式（默认 vue）
+         * @property {number}                        [timeout]     超时时间（默认 20000）
+         * @property {boolean}                       [blob]        是否使用blob使用（默认 false）
+         * @property {boolean}                       [cache]       缓存开关（默认 true）
+         * @property {boolean|function(code,type)}   [compress]    是否压缩,可以以自定压缩
+         * @property {function(body,path,type,xhr)}  [reqBody]     请求后内容处理
+         * @property {string}                        [jsFormat]    js中的import没有格式是否补格式 (默认 js）可设js|vue等,不要.
+         * @property {string}                        [cssFormat]   css中的import没有格式是否补格式 (默认 css） 可设css等,不要.
+         * @property {string|array|null}             [importType]  直接import的类型（默认 null）如js:application/javascript
+         * @property {string}                        [alone]       default中的参数名称（默认 alone) 可设置title/description/keywords/favicon/link/script//head[name:{tag:"",content:"",attr:{}}]
+         * @property {number}                        [delay]       状态设置 延迟显示（ms，默认 300）
+         * @property {function}                      [loading]     路由加载中处理包,返回显示的内容（默认 null）
+         * @property {function}                      [error]       路由加载错误处理包,返回显示的内容（默认 null）
+         */
         view: "/view/",
         format: "vue",
         timeout: 20000,
