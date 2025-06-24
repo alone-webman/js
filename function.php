@@ -20,7 +20,7 @@ function alone_vue_route(string $path, string $dir, string $type = "vue", string
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/');// . ($format ? ("." . $format) : "");
         $layout = pathinfo($file, PATHINFO_EXTENSION);
         $file = empty($layout) ? $file . ($format ? ("." . $format) : "") : $file;
-        $layout = empty($layout) ? $format : "";
+        $layout = empty($layout) ? $format : $layout;
         if (empty($layout) || in_array(strtolower($layout), ['vue', 'js', 'html'])) {
             return match ($type) {
                 "text"  => response(alone_safe_url_en(@file_get_contents($file)), 200, ['Content-Type' => 'text/plain']),
