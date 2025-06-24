@@ -15,10 +15,11 @@ function alone_vue_to_js(string $file): string {
 }
 
 /**
- * @param string $path   访问路径
- * @param string $dir    文件目录
+ * 设置vue路由
+ * @param string $path   访问开始路径
+ * @param string $dir    目录绝对路径
  * @param string $type   类型 vue text json
- * @param string $format 自带格式
+ * @param string $format 默认格式
  * @return void
  */
 function alone_vue_route(string $path, string $dir, string $type = "vue", string $format = ""): void {
