@@ -19,7 +19,7 @@
  * === 路由配置 ===
  * @typedef {Object} routeConfig
  * @property {string}                        [view]        请求视图（默认 /）
- * @property {string}                        [format]      请求格式（默认 vue）
+ * @property {string}                        [format]      请求格式（默认 ""）
  * @property {number}                        [timeout]     超时时间（默认 20000）
  * @property {boolean}                       [blob]        是否使用blob使用（默认 false）
  * @property {boolean}                       [cache]       缓存开关（默认 true）
@@ -53,7 +53,7 @@ window.aloneApp = {
         routes: [],
         routeType: 1,
         view: "/view/",
-        format: "vue",
+        format: "",
         timeout: 20000,
         blob: false,
         cache: true,
@@ -421,6 +421,6 @@ window.aloneApp = {
          * @returns {object|string}
          */
         getParams(url = "", params = {}) {
-        },
+        }
     },
 };
