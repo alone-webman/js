@@ -61,12 +61,12 @@ const frame = {
      */
     router: aloneApp.router,
     /**
-     *
-     * @param {any} param
+     * createApp.use
+     * @param param
      * @returns {*}
      */
     use(...param) {
-        return aloneApp.use(param);
+        return aloneApp.use(...param);
     },
     /**
      * 设置或者获取参数
