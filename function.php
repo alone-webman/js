@@ -18,7 +18,8 @@ function alone_vue_route(string $path, string $dir, string $type = "vue", string
     Route::get('/' . $path . '/[{path:.+}]', function(Request $req) use ($path, $dir, $type, $format) {
         $name = (substr($req->path(), strlen("/" . $path . "/")));
         $file = rtrim(rtrim($dir, '\\'), '/') . "/" . trim(trim($name, '\\'), '/') . ($format ? ("." . $format) : "");
-        if (in_array($format, ['vue', 'js', 'html'])) {
+        $layout = pathinfo($file, PATHINFO_EXTENSION);
+        if (empty($layout) || in_array(strtolower($layout), ['vue', 'js', 'html'])) {
             return match ($type) {
                 "text"  => response(alone_safe_url_en(@file_get_contents($file)), 200, ['Content-Type' => 'text/plain']),
                 "json"  => json(alone_safe_mov_en(@file_get_contents($file))),
