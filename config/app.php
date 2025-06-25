@@ -22,14 +22,16 @@ return [
             "layui/layui.js"      => "https://unpkg.com/layui@latest/dist/layui.js",
             "vue/vue.js"          => "https://unpkg.com/vue@latest/dist/vue.global.js",
             "vue/vue-router.js"   => "https://unpkg.com/vue-router@latest/dist/vue-router.global.js",
-            "vue/vue-i18n.js"     => "https://unpkg.com/vue-i18n@latest/dist/vue-i18n.global.js"
+            "vue/vue-i18n.js"     => "https://unpkg.com/vue-i18n@latest/dist/vue-i18n.global.js",
+            "vue/sfc.js"          => "https://unpkg.com/vue3-sfc-loader@latest/dist/vue3-sfc-loader.js"
         ],
         'style' => [
             "layui/css/layui.css" => "https://unpkg.com/layui@latest/dist/css/layui.css",
             "layui/layui.js"      => "https://unpkg.com/layui@latest/dist/layui.js",
             "vue/vue.js"          => "https://unpkg.com/vue@latest/dist/vue.global.prod.js",
             "vue/vue-router.js"   => "https://unpkg.com/vue-router@latest/dist/vue-router.global.prod.js",
-            "vue/vue-i18n.js"     => "https://unpkg.com/vue-i18n@latest/dist/vue-i18n.global.prod.js"
+            "vue/vue-i18n.js"     => "https://unpkg.com/vue-i18n@latest/dist/vue-i18n.global.prod.js",
+            "vue/sfc.js"          => "https://unpkg.com/vue3-sfc-loader@latest/dist/vue3-sfc-loader.js"
         ]
     ],
     /*
